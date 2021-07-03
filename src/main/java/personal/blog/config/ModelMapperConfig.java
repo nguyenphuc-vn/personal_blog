@@ -1,9 +1,15 @@
-package personal.blog.mapper;
+package personal.blog.config;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-public class Mapper {
+@Configuration
+public class ModelMapperConfig {
 
     @Bean
-    public Model
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
+
 }
