@@ -1,5 +1,6 @@
 package personal.blog.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
@@ -15,12 +16,35 @@ public class Tag {
     @NotNull
     private String name;
 
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {CascadeType.MERGE,CascadeType.PERSIST,
-                    CascadeType.PERSIST,CascadeType.DETACH}
-    )
-    @JoinTable(name="article_tag",
-            joinColumns =@JoinColumn(name="tag_id"),
-            inverseJoinColumns =@JoinColumn(name="article_id"))
+    @ManyToMany(mappedBy = "tags")
+    @JsonIgnore
     private List<Article> articles;
+
+
+    public Tag() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Article> getArticles() {
+        return articles;
+    }
+
+    public void setArticles(List<Article> articles) {
+        this.articles = articles;
+    }
 }

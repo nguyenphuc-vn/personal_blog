@@ -1,55 +1,35 @@
-package personal.blog.entity;
+package personal.blog.dto;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.sun.istack.NotNull;
+import personal.blog.entity.Tag;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-@Entity
-@Table(name = "article")
-public class Article {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@JsonInclude(JsonInclude.Include.NON_NULL)
+//@JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT,use = JsonTypeInfo.Id.CLASS)
+public class ArticleDto {
+
     private Integer id;
 
-
+    @NotNull
     private String title;
 
     private String body;
-    @Column(columnDefinition = "TIMESTAMP", name = "creation_time")
+
     private LocalDateTime creationTime;
 
-    @Column(columnDefinition = "TIMESTAMP", name = "modification_time")
     private LocalDateTime modificationTime;
 
-    @Column(columnDefinition = "TIMESTAMP", name = "publishion_time")
+
     private LocalDateTime publishTime;
 
-    @Column(name = "is_published")
+
     private boolean isPublished;
 
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
-            CascadeType.PERSIST, CascadeType.DETACH}
-    )
-    @JoinTable(name = "article_tag",
-            joinColumns = @JoinColumn(name = "article_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<Tag> tags;
-
-
-    public Article() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
@@ -105,5 +85,13 @@ public class Article {
 
     public void setTags(List<Tag> tags) {
         this.tags = tags;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }
