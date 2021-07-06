@@ -1,13 +1,11 @@
 package personal.blog.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.List;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
@@ -21,25 +19,25 @@ public class Article {
     private String title;
 
     private String body;
-    @Column(columnDefinition = "TIMESTAMP",name = "creation_time")
+    @Column(columnDefinition = "TIMESTAMP", name = "creation_time")
     private LocalDateTime creationTime;
 
-    @Column(columnDefinition = "TIMESTAMP",name = "modification_time")
+    @Column(columnDefinition = "TIMESTAMP", name = "modification_time")
     private LocalDateTime modificationTime;
 
-    @Column(columnDefinition = "TIMESTAMP",name = "publishion_time")
+    @Column(columnDefinition = "TIMESTAMP", name = "publishion_time")
     private LocalDateTime publishTime;
 
     @Column(name = "is_published")
     private boolean isPublished;
 
-    @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST,
-                       CascadeType.PERSIST,CascadeType.DETACH}
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
+            CascadeType.PERSIST, CascadeType.DETACH}
     )
-    @JoinTable(name="article_tag",
-    joinColumns =@JoinColumn(name="article_id"),
-    inverseJoinColumns =@JoinColumn(name="tag_id"))
-    private List<Tag> tags ;
+    @JoinTable(name = "article_tag",
+            joinColumns = @JoinColumn(name = "article_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private List<Tag> tags;
 
 
     public Article() {

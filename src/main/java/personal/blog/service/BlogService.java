@@ -1,12 +1,12 @@
 package personal.blog.service;
 
-import org.springframework.data.domain.Page;
 import personal.blog.dto.ArticleDto;
-
-import java.util.List;
+import personal.blog.entity.paging.Pagination;
 
 public interface BlogService {
-    public void create(ArticleDto articleDto);
+    public void createOrUpdate(ArticleDto articleDto);
 
-    public Page<ArticleDto> getAllArticles(Integer page);
+    public Pagination getPagination(Integer page);
+
+    public ArticleDto findArticle(Integer id);
 }

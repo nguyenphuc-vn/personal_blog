@@ -5,13 +5,14 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.sun.istack.NotNull;
 import personal.blog.entity.Tag;
 
-import javax.persistence.Transient;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+//@JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT,use = JsonTypeInfo.Id.CLASS)
 public class ArticleDto {
+
+    private Integer id;
 
     @NotNull
     private String title;
@@ -84,5 +85,13 @@ public class ArticleDto {
 
     public void setTags(List<Tag> tags) {
         this.tags = tags;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }
