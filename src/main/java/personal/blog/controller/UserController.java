@@ -63,7 +63,7 @@ public class UserController {
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getUsername());
         String jwt = jwtUtil.generateToken(userDetails);
-        logger.info(jwt);
+        //logger.info(jwt);
         return ResponseEntity.ok(new LoginReponse(jwt));
     }
 

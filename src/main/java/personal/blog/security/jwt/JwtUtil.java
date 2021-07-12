@@ -13,11 +13,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.logging.Logger;
 
 @Component
 public class JwtUtil {
+    private static final Logger logger = Logger.getLogger(JwtUtil.class.getName());
 
-    public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
+    public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60* 3;
     @Value("${jwt.signing.key}")
     private String signature;
 
@@ -31,6 +33,7 @@ public class JwtUtil {
     }
 
     private Boolean isTokenExpired(String token) {
+        logger.info("token " + token + "   "+getExpiration(token));
         return getExpiration(token).before(new Date());
     }
 
