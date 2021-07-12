@@ -9,4 +9,8 @@ public interface BlogService {
     public Pagination getPagination(Integer page);
 
     public ArticleDto findArticle(Integer id);
+
+    public void delete(Integer id);
+
+
 }

@@ -15,7 +15,6 @@ public class Article {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-
     private String title;
 
     private String body;
@@ -25,8 +24,8 @@ public class Article {
     @Column(columnDefinition = "TIMESTAMP", name = "modification_time")
     private LocalDateTime modificationTime;
 
-    @Column(columnDefinition = "TIMESTAMP", name = "publishion_time")
-    private LocalDateTime publishTime;
+/*    @Column(columnDefinition = "TIMESTAMP", name = "publishion_time")
+    private LocalDateTime publishTime;*/
 
     @Column(name = "is_published")
     private boolean isPublished;
@@ -83,13 +82,13 @@ public class Article {
         this.modificationTime = modificationTime;
     }
 
-    public LocalDateTime getPublishTime() {
+/*    public LocalDateTime getPublishTime() {
         return publishTime;
     }
 
     public void setPublishTime(LocalDateTime publishTime) {
         this.publishTime = publishTime;
-    }
+    }*/
 
     public boolean isPublished() {
         return isPublished;
