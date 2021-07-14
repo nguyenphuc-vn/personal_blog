@@ -1,10 +1,11 @@
 package personal.blog.security.model;
 
-public class LoginReponse {
+public class LoginResponse {
 
     private String jwt;
 
-    public LoginReponse(String jwt) {
+
+    public LoginResponse(String jwt) {
         this.jwt = jwt;
     }
 

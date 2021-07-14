@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import personal.blog.entity.User;
 import personal.blog.security.CustomUserDetailsService;
 import personal.blog.security.jwt.JwtUtil;
-import personal.blog.security.model.LoginReponse;
 import personal.blog.security.model.LoginRequest;
+import personal.blog.security.model.LoginResponse;
 import personal.blog.service.UserService;
 
 import javax.validation.Valid;
@@ -63,8 +63,8 @@ public class UserController {
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getUsername());
         String jwt = jwtUtil.generateToken(userDetails);
-        //logger.info(jwt);
-        return ResponseEntity.ok(new LoginReponse(jwt));
+
+        return ResponseEntity.ok(new LoginResponse(jwt));
     }
 
 }

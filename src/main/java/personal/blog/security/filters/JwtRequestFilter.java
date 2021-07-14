@@ -27,7 +27,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     /**
      * @param httpServletRequest
      * @param httpServletResponse
-     * @param filterChain
+     * @param filterChain         Check if the request send auth basic ,
+     *                            get that string after Bearer ,
+     *                            Load that username by UserDetailsService,
      * @throws ServletException
      * @throws IOException
      */
