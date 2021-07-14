@@ -17,7 +17,7 @@ public class BlogController {
     private BlogService blogService;
 
 
-    @PostMapping("article/create")
+    @PostMapping("article/")
     public ResponseEntity<Void> createOrUpdate(@RequestBody @Valid ArticleDto articleDto) {
         blogService.createOrUpdate(articleDto);
         return ResponseEntity.ok().build();
@@ -34,4 +34,12 @@ public class BlogController {
     public Pagination getPaginated(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
         return blogService.getPagination(page);
     }
+
+    @DeleteMapping("article/{id}")
+    public ResponseEntity<Void> delete(@PathVariable("id") Integer id) {
+        blogService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
 }

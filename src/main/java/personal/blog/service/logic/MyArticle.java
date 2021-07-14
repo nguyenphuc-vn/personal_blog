@@ -6,12 +6,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import personal.blog.dto.ArticleDto;
 import personal.blog.entity.Article;
 import personal.blog.entity.paging.Pagination;
 import personal.blog.repository.ArticleRepository;
 import personal.blog.repository.TagRepository;
+import personal.blog.repository.UserRepository;
 import personal.blog.service.BlogService;
 
 import java.time.LocalDateTime;
@@ -24,18 +26,21 @@ public class MyArticle implements BlogService {
 
     private final ArticleRepository articleRepository;
     private final TagRepository tagRepository;
+    private final UserRepository userRepository;
     @Autowired
     private ModelMapper mapper;
+    @Autowired
+    private PasswordEncoder encoder;
 
-    public MyArticle(ArticleRepository articleRepository, TagRepository tagRepository) {
+    public MyArticle(ArticleRepository articleRepository, TagRepository tagRepository, UserRepository userRepository) {
         this.articleRepository = articleRepository;
         this.tagRepository = tagRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
     public void createOrUpdate(ArticleDto articleDto) {
         Article article = mapper.map(articleDto, Article.class);
-        System.err.println(article.getId());
         Optional<Article> tempArticle = articleRepository.findById(article.getId());
         if (tempArticle.isEmpty()) {
             create(article);
@@ -56,7 +61,7 @@ public class MyArticle implements BlogService {
     private Article update(Optional<Article> article, ArticleDto articleDto) {
         if (article.isPresent()) {
             article.get().setTitle(articleDto.getTitle());
-            article.get().setBody(articleDto.getTitle());
+            article.get().setBody(articleDto.getBody());
             article.get().setTags(articleDto.getTags());
             article.get().setPublished(articleDto.isPublished());
             article.get().setModificationTime(LocalDateTime.now());
@@ -78,6 +83,16 @@ public class MyArticle implements BlogService {
     public ArticleDto findArticle(Integer id) {
         Optional<Article> article = articleRepository.findById(id);
         return mapper.map(article.orElse(null), ArticleDto.class);
+    }
+
+    @Override
+    public void delete(Integer id) {
+        articleRepository.deleteById(id);
+    }
+
+
+    private Boolean doPasswordsMatch(String rawPassword, String encodedPassword) {
+        return encoder.matches(rawPassword, encodedPassword);
     }
 
 

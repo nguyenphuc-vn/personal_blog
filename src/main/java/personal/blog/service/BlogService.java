@@ -4,9 +4,13 @@ import personal.blog.dto.ArticleDto;
 import personal.blog.entity.paging.Pagination;
 
 public interface BlogService {
-    public void createOrUpdate(ArticleDto articleDto);
+    void createOrUpdate(ArticleDto articleDto);
 
-    public Pagination getPagination(Integer page);
+    Pagination getPagination(Integer page);
 
-    public ArticleDto findArticle(Integer id);
+    ArticleDto findArticle(Integer id);
+
+    void delete(Integer id);
+
+
 }
