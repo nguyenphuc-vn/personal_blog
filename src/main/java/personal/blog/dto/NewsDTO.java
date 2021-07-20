@@ -12,19 +12,30 @@ public class NewsDTO {
 
     private String image;
 
+    private String website;
+
     private String href;
 
     public NewsDTO() {
     }
 
-    public static NewsDTO builder(String title, String desc, String content, String image, String href) {
+    public static NewsDTO builder(String title, String desc, String content, String image, String href,String website) {
         NewsDTO newsDTO = new NewsDTO();
         newsDTO.setTitle(title);
         newsDTO.setDescription(desc);
         newsDTO.setContent(content);
         newsDTO.setImage(image);
+        newsDTO.setWebsite(website);
         newsDTO.setHref(href);
         return newsDTO;
+    }
+
+    public String getHref() {
+        return href;
+    }
+
+    public void setHref(String href) {
+        this.href = href;
     }
 
     public Long getId() {
@@ -67,12 +78,12 @@ public class NewsDTO {
         this.image = image;
     }
 
-    public String getHref() {
-        return href;
+    public String getWebsite() {
+        return website;
     }
 
-    public void setHref(String href) {
-        this.href = href;
+    public void setWebsite(String website) {
+        this.website = website;
     }
 
 

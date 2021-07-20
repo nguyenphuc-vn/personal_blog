@@ -12,13 +12,16 @@ import personal.blog.repository.NewsRepository;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 @Component
 public class Scraper {
     private static final Logger logger = Logger.getLogger(Scraper.class.getName());
 
+
     public List<NewsDTO> getKhoaHocTv(String url, NewsRepository repository) {
+        String website = "KH";
         List<NewsDTO> newsDTOList = new ArrayList<>();
         try {
             Document doc = Jsoup.connect(url).get();
@@ -33,14 +36,12 @@ public class Scraper {
                     continue;
                 }
                 String title = anchorItem1.html();
-
                 String image = anchorItem2.attr("data-src");
                 String desc = divItem.html();
-                logger.info("title : " + title + " href : " + href + " image : " + image + " desc : " + desc);
+                //logger.info("title : " + title + " href : " + href + " image : " + image + " desc : " + desc);
                 String content = getContent(href);
                 // logger.info(content);
-                newsDTOList.add(NewsDTO.builder(title, desc, content, image, href));
-
+                newsDTOList.add(NewsDTO.builder(title, desc, content, image, href,website));
             }
         } catch (IOException ex) {
             logger.info("URL : " + url + "  ERROR");
@@ -52,8 +53,9 @@ public class Scraper {
 
 
     private boolean exists(String href, NewsRepository repository) {
-        News news = repository.findNewsByLink(href);
-        return news != null;
+        Optional<News> news = repository.findNewsByHref(href);
+        //logger.info(news+"");
+        return news.isPresent();
     }
 
     private String getContent(String href) {

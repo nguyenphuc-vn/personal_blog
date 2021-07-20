@@ -17,9 +17,19 @@ public class News {
 
     private String image;
 
+    private String website;
+
     private String href;
 
     public News() {
+    }
+
+    public String getHref() {
+        return href;
+    }
+
+    public void setHref(String href) {
+        this.href = href;
     }
 
     public Long getId() {
@@ -62,12 +72,12 @@ public class News {
         this.image = image;
     }
 
-    public String getHref() {
-        return href;
+    public String getWebsite() {
+        return website;
     }
 
-    public void setHref(String link) {
-        this.href = link;
+    public void setWebsite(String link) {
+        this.website = link;
     }
 
 }

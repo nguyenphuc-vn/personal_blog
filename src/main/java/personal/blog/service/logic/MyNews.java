@@ -45,12 +45,6 @@ public class MyNews implements NewsService {
                 .stream()
                 .map(n -> mapper.map(n, News.class))
                 .collect(Collectors.toList());
-/*        System.err.println(news.get(0).getContent());
-        System.err.println(news.get(0).getTitle());
-        System.err.println(news.get(0).getLink());
-        System.err.println(news.get(0).getImage());
-        System.err.println(news.get(0).getDescription());*/
-        //news.forEach(n -> System.out.println(n.getDescription()));
         newsRepository.saveAll(news);
     }
 
