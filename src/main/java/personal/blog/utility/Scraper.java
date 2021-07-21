@@ -21,53 +21,78 @@ public class Scraper {
 
 
     public List<NewsDTO> getKhoaHocTv(String url, NewsRepository repository) {
-        String website = "KH";
         List<NewsDTO> newsDTOList = new ArrayList<>();
         try {
-            Document doc = Jsoup.connect(url).get();
-            Elements items = doc.getElementsByClass("listitem");
-            for (int i = 0; i < items.size(); i++) {
-                Element anchorItem1 = items.get(i).getElementsByClass("title").get(0);
-                Element anchorItem2 = items.get(i).getElementsByTag("img").get(0);
-                Element divItem = items.get(i).getElementsByClass("desc").get(0);
-                String href = url + anchorItem1.attr("href");
-                //logger.info(href);
+            Elements items = getElements(url, "listitem");
+            for (Element item : items) {
+                Element titleEle = item.getElementsByClass("title").get(0);
+                String href = url + titleEle.attr("href");
                 if (exists(href, repository)) {
                     continue;
                 }
-                String title = anchorItem1.html();
-                String image = anchorItem2.attr("data-src");
-                String desc = divItem.html();
+                Element imgEle = item.getElementsByTag("img").get(0);
+                Element divEle = item.getElementsByClass("desc").get(0);
+                String title = titleEle.html();
+                String image = imgEle.attr("data-src");
+                String desc = divEle.html();
                 //logger.info("title : " + title + " href : " + href + " image : " + image + " desc : " + desc);
-                String content = getContent(href);
-                // logger.info(content);
-                newsDTOList.add(NewsDTO.builder(title, desc, content, image, href,website));
+                String content = getContent(0, href, 1);
+                newsDTOList.add(NewsDTO.builder(title, desc, content, image, href, "KH"));
             }
         } catch (IOException ex) {
             logger.info("URL : " + url + "  ERROR");
         }
-        //newsDTOList.forEach(n -> System.out.println(n.getDesc()));
-        //logger.info(newsDTOList+"");
+        return newsDTOList;
+    }
+
+    public List<NewsDTO> getTheVerge(String url, NewsRepository repository) {
+        List<NewsDTO> newsDTOList = new ArrayList<>();
+        try {
+            Elements elements = getElements(url, "c-entry-box--compact c-entry-box--compact--article");
+            for (Element e : elements) {
+                Element anchorEle = e.getElementsByClass("c-entry-box--compact__image-wrapper").get(0);
+                String href = anchorEle.attr("href");
+                if (exists(href, repository)) {
+                    continue;
+                }
+                Element titleEle = e.getElementsByClass("c-entry-box--compact__title").get(0).getElementsByTag("a").get(0);
+                String image = anchorEle.select("img").attr("abs:src");
+                String title = titleEle.html();
+                String content = getContent(1, href, 2);
+                String desc = getDesc(content);
+                //logger.info("title : " + title + " desc : "+desc + " content : "+content+" href : "+href );
+                newsDTOList.add(NewsDTO.builder(title, desc, content, image, href, "TV"));
+            }
+        } catch (IOException ex) {
+            logger.info("URL : " + url + "  ERROR");
+        }
         return newsDTOList;
     }
 
 
+    private Elements getElements(String url, String cssClass) throws IOException {
+        Document doc = Jsoup.connect(url).get();
+        return doc.getElementsByClass(cssClass);
+    }
+
+    private String getDesc(String content) {
+        return content.split("[,\n.]")[0];
+    }
+
     private boolean exists(String href, NewsRepository repository) {
         Optional<News> news = repository.findNewsByHref(href);
-        //logger.info(news+"");
         return news.isPresent();
     }
 
-    private String getContent(String href) {
+    private String getContent(int numStart, String href, int numMinus) {
         StringBuilder stringBuilder = new StringBuilder();
         try {
             Document doc = Jsoup.connect(href).get();
             Elements items = doc.getElementsByTag("p");
-            for (int i = 0; i < items.size() - 1; i++) {
+            for (int i = numStart; i < items.size() - numMinus; i++) {
                 String content = items.get(i).html();
                 stringBuilder.append(content);
                 stringBuilder.append("\n");
-                // logger.info(content+"");
             }
         } catch (IOException ex) {
             logger.info("URL : " + href + "  ERROR");

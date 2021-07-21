@@ -9,11 +9,10 @@ import personal.blog.security.model.LoginRequest;
 import personal.blog.service.UserService;
 
 import java.util.Optional;
-import java.util.logging.Logger;
 
 @Service
 public class MyUser implements UserService {
-    private static final Logger logger = Logger.getLogger(UserService.class.getName());
+    //private static final Logger logger = Logger.getLogger(UserService.class.getName());
     @Autowired
     private UserRepository userRepository;
     @Autowired

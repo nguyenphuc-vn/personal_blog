@@ -19,7 +19,7 @@ public class NewsDTO {
     public NewsDTO() {
     }
 
-    public static NewsDTO builder(String title, String desc, String content, String image, String href,String website) {
+    public static NewsDTO builder(String title, String desc, String content, String image, String href, String website) {
         NewsDTO newsDTO = new NewsDTO();
         newsDTO.setTitle(title);
         newsDTO.setDescription(desc);

@@ -39,13 +39,25 @@ public class MyNews implements NewsService {
     }
 
     @Override
-    public void getNewsFromURL(String url) {
+    public void getNewsFromKHTV(String url) {
         List<NewsDTO> newsDTOS = scraper.getKhoaHocTv(url, newsRepository);
-        List<News> news = newsDTOS
+        List<News> news = convert(newsDTOS);
+        newsRepository.saveAll(news);
+    }
+
+    @Override
+    public void getNewsFromTV(String url) {
+        List<NewsDTO> newsDTOS = scraper.getTheVerge(url, newsRepository);
+        List<News> news = convert(newsDTOS);
+        newsRepository.saveAll(news);
+    }
+
+    private List<News> convert(List<NewsDTO> dtoList) {
+        return dtoList
                 .stream()
                 .map(n -> mapper.map(n, News.class))
                 .collect(Collectors.toList());
-        newsRepository.saveAll(news);
     }
+
 
 }

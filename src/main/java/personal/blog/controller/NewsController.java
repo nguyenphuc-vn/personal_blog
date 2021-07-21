@@ -9,18 +9,25 @@ import personal.blog.service.NewsService;
 @RequestMapping("/api/news/")
 public class NewsController {
     private static final String KHOA_HOC_URL = "https://khoahoc.tv";
+    private static final String THE_VERGE_URL = "https://www.theverge.com";
     @Autowired
     private NewsService newsService;
 
     @ResponseBody
     @GetMapping("khoahoctv")
     public void getNewsFromKhoaHocTv() {
-        newsService.getNewsFromURL(KHOA_HOC_URL);
+        newsService.getNewsFromKHTV(KHOA_HOC_URL);
     }
 
     @GetMapping
     @ResponseBody
     public Pagination getPaginated(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
         return newsService.getNews(page);
+    }
+
+    @ResponseBody
+    @GetMapping("theverge")
+    public void getNewsFromTheVerge() {
+        newsService.getNewsFromTV(THE_VERGE_URL);
     }
 }
