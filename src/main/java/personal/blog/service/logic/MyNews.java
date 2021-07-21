@@ -52,6 +52,13 @@ public class MyNews implements NewsService {
         newsRepository.saveAll(news);
     }
 
+    @Override
+    public void getNewsFromVE(String url) {
+        List<NewsDTO> newsDTOS = scraper.getVnExpress(url, newsRepository);
+        List<News> news = convert(newsDTOS);
+        newsRepository.saveAll(news);
+    }
+
     private List<News> convert(List<NewsDTO> dtoList) {
         return dtoList
                 .stream()

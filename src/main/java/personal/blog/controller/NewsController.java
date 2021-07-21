@@ -10,6 +10,7 @@ import personal.blog.service.NewsService;
 public class NewsController {
     private static final String KHOA_HOC_URL = "https://khoahoc.tv";
     private static final String THE_VERGE_URL = "https://www.theverge.com";
+    private static final String VN_EXPRESS_URL = "https://vnexpress.net/rss/tin-moi-nhat.rss";
     @Autowired
     private NewsService newsService;
 
@@ -29,5 +30,10 @@ public class NewsController {
     @GetMapping("theverge")
     public void getNewsFromTheVerge() {
         newsService.getNewsFromTV(THE_VERGE_URL);
+    }
+    @ResponseBody
+    @GetMapping("vnexpress")
+    public void getNewsFromVnExpress() {
+        newsService.getNewsFromVE(VN_EXPRESS_URL);
     }
 }

@@ -8,4 +8,6 @@ public interface NewsService {
     public void getNewsFromKHTV(String url);
 
     public void getNewsFromTV(String url);
+
+    public void getNewsFromVE(String url);
 }
