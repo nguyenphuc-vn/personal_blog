@@ -82,9 +82,13 @@ public class Scraper {
                 if (exists(href, repository)) {
                     continue;
                 }
+
                 String title = e.select("title").text();
                 String image = getFromDesc(1, descTag, "\"");
                 String desc = getFromDesc(4, descTag, "");
+                if(desc ==null){
+                    continue;
+                }
                 String content = getContent(0, href, 1);
                 //logger.info("title : " + title + " desc : " + desc + " href : " + href + " image : " + image);
                 newsDTOList.add(NewsDTO.builder(title, desc, content, image, href, "VE"));
@@ -97,8 +101,12 @@ public class Scraper {
 
     private String getFromDesc(int num, String source, String sPattern) {
         String[] des = source.split(">");
+        if(des.length <4){
+            return null;
+        }
         String subStr = des[num].substring(des[num].indexOf(sPattern));
         return subStr.replaceAll("\"", "");
+
     }
 
     private Elements getElements(String url, String cssClass) throws IOException {
