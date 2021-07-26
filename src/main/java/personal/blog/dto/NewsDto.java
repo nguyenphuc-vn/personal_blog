@@ -1,7 +1,7 @@
 package personal.blog.dto;
 
 //@JsonInclude(JsonInclude.Include.NON_NULL)
-public class NewsDTO {
+public class NewsDto {
     private Long id;
 
     private String title;
@@ -16,11 +16,11 @@ public class NewsDTO {
 
     private String href;
 
-    public NewsDTO() {
+    public NewsDto() {
     }
 
-    public static NewsDTO builder(String title, String desc, String content, String image, String href, String website) {
-        NewsDTO newsDTO = new NewsDTO();
+    public static NewsDto builder(String title, String desc, String content, String image, String href, String website) {
+        NewsDto newsDTO = new NewsDto();
         newsDTO.setTitle(title);
         newsDTO.setDescription(desc);
         newsDTO.setContent(content);

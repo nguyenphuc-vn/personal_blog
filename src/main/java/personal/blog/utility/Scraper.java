@@ -6,7 +6,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.parser.Parser;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
-import personal.blog.dto.NewsDTO;
+import personal.blog.dto.NewsDto;
 import personal.blog.entity.News;
 import personal.blog.repository.NewsRepository;
 
@@ -22,8 +22,8 @@ public class Scraper {
     private static final Logger logger = Logger.getLogger(Scraper.class.getName());
 
 
-    public List<NewsDTO> getKhoaHocTv(String url, NewsRepository repository) {
-        List<NewsDTO> newsDTOList = new ArrayList<>();
+    public List<NewsDto> getKhoaHocTv(String url, NewsRepository repository) {
+        List<NewsDto> newsDtoList = new ArrayList<>();
         try {
             Elements items = getElements(url, "listitem");
             for (Element item : items) {
@@ -39,16 +39,16 @@ public class Scraper {
                 String desc = divEle.html();
                 //logger.info("title : " + title + " href : " + href + " image : " + image + " desc : " + desc);
                 String content = getContent(0, href, 1);
-                newsDTOList.add(NewsDTO.builder(title, desc, content, image, href, "KH"));
+                newsDtoList.add(NewsDto.builder(title, desc, content, image, href, "KH"));
             }
         } catch (IOException ex) {
             logger.info("URL : " + url + "  ERROR");
         }
-        return newsDTOList;
+        return newsDtoList;
     }
 
-    public List<NewsDTO> getTheVerge(String url, NewsRepository repository) {
-        List<NewsDTO> newsDTOList = new ArrayList<>();
+    public List<NewsDto> getTheVerge(String url, NewsRepository repository) {
+        List<NewsDto> newsDtoList = new ArrayList<>();
         try {
             Elements items = getElements(url, "c-entry-box--compact c-entry-box--compact--article");
             for (Element e : items) {
@@ -64,16 +64,16 @@ public class Scraper {
                 String content = getContent(1, href, 2);
                 String desc = getDesc(content);
                 //logger.info("title : " + title + " desc : "+desc + " content : "+content+" href : "+href );
-                newsDTOList.add(NewsDTO.builder(title, desc, content, image, href, "TV"));
+                newsDtoList.add(NewsDto.builder(title, desc, content, image, href, "TV"));
             }
         } catch (IOException ex) {
             logger.info("URL : " + url + "  ERROR");
         }
-        return newsDTOList;
+        return newsDtoList;
     }
 
-    public List<NewsDTO> getVnExpress(String url, NewsRepository repository) {
-        List<NewsDTO> newsDTOList = new ArrayList<>();
+    public List<NewsDto> getVnExpress(String url, NewsRepository repository) {
+        List<NewsDto> newsDtoList = new ArrayList<>();
         try {
             Elements items = getElementsFromRss(url, "item");
             for (Element e : items) {
@@ -82,26 +82,25 @@ public class Scraper {
                 if (exists(href, repository)) {
                     continue;
                 }
-
                 String title = e.select("title").text();
                 String image = getFromDesc(1, descTag, "\"");
                 String desc = getFromDesc(4, descTag, "");
-                if(desc ==null){
+                if (desc == null) {
                     continue;
                 }
                 String content = getContent(0, href, 1);
                 //logger.info("title : " + title + " desc : " + desc + " href : " + href + " image : " + image);
-                newsDTOList.add(NewsDTO.builder(title, desc, content, image, href, "VE"));
+                newsDtoList.add(NewsDto.builder(title, desc, content, image, href, "VE"));
             }
         } catch (IOException ex) {
             logger.info("URL : " + url + "  ERROR");
         }
-        return newsDTOList;
+        return newsDtoList;
     }
 
     private String getFromDesc(int num, String source, String sPattern) {
         String[] des = source.split(">");
-        if(des.length <4){
+        if (des.length < 4) {
             return null;
         }
         String subStr = des[num].substring(des[num].indexOf(sPattern));
@@ -135,8 +134,9 @@ public class Scraper {
             Elements items = doc.getElementsByTag("p");
             for (int i = numStart; i < items.size() - numMinus; i++) {
                 String content = items.get(i).html();
+                stringBuilder.append("<p>");
                 stringBuilder.append(content);
-                stringBuilder.append("\n");
+                stringBuilder.append("</p>");
             }
         } catch (IOException ex) {
             logger.info("URL : " + href + "  ERROR");

@@ -1,7 +1,9 @@
 package personal.blog.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
+import personal.blog.dto.SingleNewsDto;
 import personal.blog.entity.paging.Pagination;
 import personal.blog.service.NewsService;
 
@@ -14,6 +16,7 @@ public class NewsController {
     @Autowired
     private NewsService newsService;
 
+    @Scheduled(cron = "0,30 * * * *")
     @ResponseBody
     @GetMapping("khoahoctv")
     public void getNewsFromKhoaHocTv() {
@@ -22,18 +25,29 @@ public class NewsController {
 
     @GetMapping
     @ResponseBody
-    public Pagination getPaginated(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
-        return newsService.getNews(page);
+    public Pagination getPaginated(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+                                   @RequestParam(value = "web", required = false) String web) {
+        return newsService.getNews(page, web);
     }
 
+    @Scheduled(cron = "0,30 * * * *")
     @ResponseBody
     @GetMapping("theverge")
     public void getNewsFromTheVerge() {
         newsService.getNewsFromTV(THE_VERGE_URL);
     }
+
+    @Scheduled(cron = "0,30 * * * *")
     @ResponseBody
     @GetMapping("vnexpress")
     public void getNewsFromVnExpress() {
         newsService.getNewsFromVE(VN_EXPRESS_URL);
+    }
+
+
+    @ResponseBody
+    @GetMapping("article/")
+    public SingleNewsDto getNewsById(@RequestParam("id") long id) {
+        return newsService.getNewsById(id);
     }
 }
