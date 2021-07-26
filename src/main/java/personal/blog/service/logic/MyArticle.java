@@ -6,7 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import personal.blog.dto.ArticleDto;
 import personal.blog.entity.Article;
@@ -29,8 +28,7 @@ public class MyArticle implements BlogService {
     private final UserRepository userRepository;
     @Autowired
     private ModelMapper mapper;
-    @Autowired
-    private PasswordEncoder encoder;
+
 
     public MyArticle(ArticleRepository articleRepository, TagRepository tagRepository, UserRepository userRepository) {
         this.articleRepository = articleRepository;
@@ -88,11 +86,6 @@ public class MyArticle implements BlogService {
     @Override
     public void delete(Integer id) {
         articleRepository.deleteById(id);
-    }
-
-
-    private Boolean doPasswordsMatch(String rawPassword, String encodedPassword) {
-        return encoder.matches(rawPassword, encodedPassword);
     }
 
 

@@ -1,7 +1,5 @@
 package personal.blog.entity.paging;
 
-import personal.blog.dto.ArticleDto;
-
 import java.util.List;
 
 
@@ -10,14 +8,14 @@ public class Pagination {
     private int number;
     private boolean prevEnabled;
     private boolean hasNext;
-    private List<ArticleDto> articles;
+    private List<?> list;
 
 
-    public static Pagination of(int totalPages, int number, List<ArticleDto> dto) {
+    public static Pagination of(int totalPages, int number, List<?> dto) {
         Pagination pagination = new Pagination();
         pagination.setTotalPages(totalPages);
         pagination.setNumber(number);
-        pagination.setArticles(dto);
+        pagination.setList(dto);
         pagination.setPrevEnabled(number != 0);
         pagination.setHasNext(number < totalPages - 1);
         return pagination;
@@ -55,11 +53,11 @@ public class Pagination {
         this.number = number;
     }
 
-    public List<ArticleDto> getArticles() {
-        return articles;
+    public List<?> getList() {
+        return list;
     }
 
-    public void setArticles(List<ArticleDto> articles) {
-        this.articles = articles;
+    public void setList(List<?> list) {
+        this.list = list;
     }
 }

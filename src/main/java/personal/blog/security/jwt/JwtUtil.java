@@ -43,24 +43,22 @@ public class JwtUtil {
     /**
      * @param token
      * @param claimsResolver
-     * @param <T>
-     *     Get info from Bearer and extract to claims
+     * @param <T>            Get info from Bearer and extract to claims
      * @return T
      */
     private <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
         Claims claims = getAllClaimsFromToken(token);
-        logger.info("get claim : "+claims );
+        logger.info("get claim : " + claims);
         return claimsResolver.apply(claims);
     }
 
 
     /**
-     * @param token
-     * extract info like this payload  {sub=*, iat=*, exp=*} and get the body info
+     * @param token extract info like this payload  {sub=*, iat=*, exp=*} and get the body info
      * @return
      */
     private Claims getAllClaimsFromToken(String token) {
-        logger.info("allclaims : "+token);
+        logger.info("allclaims : " + token);
         return Jwts.parserBuilder()
                 .setSigningKey(getSignature())
                 .build()
