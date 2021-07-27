@@ -16,7 +16,7 @@ public class NewsController {
     @Autowired
     private NewsService newsService;
 
-    @Scheduled(cron = "0,28 * * * *")
+    @Scheduled(cron = "0 0/28 * * * * ")
     @ResponseBody
     @GetMapping("khoahoctv")
     public void getNewsFromKhoaHocTv() {
@@ -30,14 +30,14 @@ public class NewsController {
         return newsService.getNews(page, web);
     }
 
-    @Scheduled(cron = "0,29 * * * *")
+    @Scheduled(cron = "0 0/29 * * * * ")
     @ResponseBody
     @GetMapping("theverge")
     public void getNewsFromTheVerge() {
         newsService.getNewsFromTV(THE_VERGE_URL);
     }
 
-    @Scheduled(cron = "0,30 * * * *")
+    @Scheduled(cron = "0 0/30 * * * * ")
     @ResponseBody
     @GetMapping("vnexpress")
     public void getNewsFromVnExpress() {
@@ -51,7 +51,7 @@ public class NewsController {
         return newsService.getNewsById(id);
     }
 
-    @Scheduled(cron = "0 0 */3 * *")
+    @Scheduled(cron = "0 0 */3 * * *")
     @DeleteMapping("autodelete")
     public void deleteNewsOnceInThreeDay() {
         newsService.deleteByTime();
