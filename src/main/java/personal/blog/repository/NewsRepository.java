@@ -20,6 +20,6 @@ public interface NewsRepository extends JpaRepository<News, Long> {
     @Query("select n from News n where n.website=:website")
     Page<News> findNewsByWebsite(@Param("website") String website, Pageable pageable);
 
-
-    void deleteByNowLessThan(LocalDate dateTime);
+    @Query("delete from News n where n.now <:datetime")
+    void deleteByNowLessThan(@Param("datetime")LocalDate dateTime);
 }
