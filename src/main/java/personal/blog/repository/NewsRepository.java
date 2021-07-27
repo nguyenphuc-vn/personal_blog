@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import personal.blog.entity.News;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Repository
@@ -18,4 +19,7 @@ public interface NewsRepository extends JpaRepository<News, Long> {
 
     @Query("select n from News n where n.website=:website")
     Page<News> findNewsByWebsite(@Param("website") String website, Pageable pageable);
+
+
+    void deleteByNowLessThan(LocalDate dateTime);
 }

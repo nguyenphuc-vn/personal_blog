@@ -1,5 +1,8 @@
 package personal.blog.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SingleNewsDto {
     private Long id;
 
