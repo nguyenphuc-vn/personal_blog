@@ -14,6 +14,7 @@ import personal.blog.repository.NewsRepository;
 import personal.blog.service.NewsService;
 import personal.blog.utility.Scraper;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -66,6 +67,12 @@ public class MyNews implements NewsService {
         Optional<News> news = newsRepository.findById(id);
         news.orElseThrow(() -> new RuntimeException("can not find news with id =  " + id));
         return mapper.map(news.get(), SingleNewsDto.class);
+    }
+
+    @Override
+    public void deleteByTime() {
+        LocalDate expTime = LocalDate.now().minusDays(3);
+        newsRepository.deleteByNowLessThan(expTime);
     }
 
     private List<News> convert(List<NewsDto> dtoList) {

@@ -1,6 +1,7 @@
 package personal.blog.entity;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "news")
@@ -21,7 +22,12 @@ public class News {
 
     private String href;
 
+    @Column(columnDefinition = "DATE")
+    private LocalDate now;
+
+
     public News() {
+        this.now = LocalDate.now();
     }
 
     public String getHref() {
@@ -80,4 +86,11 @@ public class News {
         this.website = link;
     }
 
+    public LocalDate getNow() {
+        return now;
+    }
+
+    public void setNow(LocalDate now) {
+        this.now = now;
+    }
 }

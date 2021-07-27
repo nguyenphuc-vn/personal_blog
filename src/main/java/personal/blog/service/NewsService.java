@@ -14,5 +14,5 @@ public interface NewsService {
 
     public SingleNewsDto getNewsById(long id);
 
-
+    public void deleteByTime();
 }
